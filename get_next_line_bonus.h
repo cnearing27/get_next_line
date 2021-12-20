@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_BONUS_BONUS
+#ifndef GET_NEXT_LINE_BONUS
+# define GET_NEXT_LINE_BONUS
 #include <fcntl.h>
 #include <stdlib.h>
 char	*get_next_line(int	fd);

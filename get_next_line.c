@@ -11,15 +11,21 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <unistd.h>
 #include <stdio.h>
 
-char	*save_buf(char	*outstr, int	start_i)
+char	*save_buf(char	*outstr)
 {
 	char	*new_out;
 	int		count;
 	int		finish_i;
+	int		start_i;
 
 	finish_i = 0;
+	start_i = 0;
+	while (outstr[start_i] != '\n')
+		start_i++;
+	start_i++;
 	while (outstr[finish_i])
 		finish_i++;
 	new_out = malloc(sizeof(char) * (finish_i - start_i + 1));
@@ -35,14 +41,20 @@ char	*save_buf(char	*outstr, int	start_i)
 	return (new_out);
 }
 
-char	*ft_crop(int	i, char	*outstr)
+char	*ft_crop(char	*outstr)
 {
 	char	*dest;
 	int		count;
+	int		i;
 
+	i = 0;
 	count = 0;
+	if (!outstr)
+		return (NULL);
+	while (outstr[i] && outstr[i] != '\n')
+		i++;
 	dest = malloc(sizeof(char) * (i + 1));
-	if (dest == NULL)
+	if (!dest)
 		return (NULL);
 	while (count <= i)
 	{
@@ -50,110 +62,50 @@ char	*ft_crop(int	i, char	*outstr)
 		count++;
 	}
 	dest[count] = '\0';
-	outstr = save_buf(outstr, i + 1);
 	return (dest);
 }
 
-char	*get_line(char	*buf, int	fd)
+int	inc_endl(char	*outstr)
 {
-	char			*tempstr;
-	unsigned int	ret;
-	int				i;
-	static char		*outstr;
+	int	i;
 
-	ret = 1;
 	i = 0;
-	while (ret)
+	if (!outstr)
+		return (0);
+	while (outstr[i])
 	{
-		ret = read(fd, buf, BUFFER_SIZE);
-		buf[ret] = '\0';
-		tempstr = ft_strdup(buf, BUFFER_SIZE);
-		outstr = ft_strcat(outstr, tempstr);
-		while (outstr[i])
-		{
-			if (outstr[i] == '\n' || outstr[i] == '\0')
-			{
-				tempstr = ft_crop(i, outstr);
-				outstr = save_buf(outstr, i + 1);
-				return (tempstr);
-			}
-			i++;
-		}
+		if (outstr[i] == '\n')
+			return (1);
+		i++;
 	}
-	return (NULL);
+	return (0);
 }
 
 char	*get_next_line(int	fd)
 {
-	char	*tempstr;
-	char	*buf;
+	char			*buf;
+	int				ret;
+	static char		*outstr;
 
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (BUFFER_SIZE <= 0 || fd < 0 || !buf)
+	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	tempstr = get_line(buf, fd);
+	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
+		return (NULL);
+	ret = 1;
+	while (ret && !inc_endl(outstr))
+	{
+		ret = read(fd, buf, BUFFER_SIZE);
+		if (ret == -1)
+		{
+			free(buf);
+			return (NULL);
+		}
+		buf[ret] = '\0';
+		outstr = ft_strjoin(outstr, buf);
+	}
 	free(buf);
-	return (tempstr);
-}
-
-int main(void)
-{
-//	int fd = 0;
-//	char *outp = get_next_line(fd);
-//	printf("\n1: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("2: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("3: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("4: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("5: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("6: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("7: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("8: %s", outp);
-
-
-	int fd = open("test.txt", O_RDONLY);
-	char *outp = get_next_line(fd);
-	printf("1: %s", outp);
-	outp = get_next_line(fd);
-	printf("2: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("3: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("4: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("5: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("6: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("7: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("8: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("9: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("10: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("11: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("12: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("13: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("14: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("15: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("16: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("17: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("18: %s", outp);
-//	outp = get_next_line(fd);
-//	printf("19: %s", outp);
+	buf = ft_crop(outstr);
+	outstr = save_buf(outstr);
+	return (buf);
 }

@@ -12,47 +12,42 @@
 
 #include "get_next_line.h"
 
-char	*ft_strcpy(char *dest, char *src, int	i)
-{
-	int	count;
-
-	count = 0;
-	while (count < i)
-	{
-		dest[count] = src[count];
-		count++;
-	}
-	dest[count] = '\0';
-	return (dest);
-}
-
-char	*ft_strdup(char *src, int	i)
-{
-	char	*dest;
-
-	dest = malloc(sizeof(char) * (i + 1));
-	if (!dest)
-		return (NULL);
-	return (ft_strcpy(dest, src, i));
-}
-
-char	*ft_strcat(char	*dest, char	*src)
+int	ft_strlen(char	*str)
 {
 	int	i;
-	int	j;
 
 	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+		i++;
+	return (i);
+}
+
+char	*ft_strjoin(char	*s1, char	*s2)
+{
+	int		i;
+	int		j;
+	char	*res;
+
+	if (!s1 && !s2)
+		return (NULL);
+	i = 0;
 	j = 0;
-	if (dest == NULL)
-		return (src);
-	while (dest[i] != '\0')
-		i++;
-	while (src[j] != '\0')
+	res = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!res)
+		return (NULL);
+	while (s1[i] != '\0')
 	{
-		dest[i] = src[j];
+		res[i] = s1[i];
 		i++;
+	}
+	while (s2[j] != '\0')
+	{
+		res[i + j] = s2[j];
 		j++;
 	}
-	dest[i] = '\0';
-	return (dest);
+	j++;
+	res[i + j] = '\0';
+	return (res);
 }

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-//#include <stdio.h>
+#include "get_next_line_bonus.h"
+#include <unistd.h>
 
 char	*save_buf(char	*outstr, int	start_i)
 {
@@ -96,7 +96,8 @@ char	*get_next_line(int	fd)
 	return (tempstr);
 }
 
-/*int main(void)
+/*#include <stdio.h>
+int main(void)
 {
 //	int fd = 0;
 //	char *outp = get_next_line(fd);

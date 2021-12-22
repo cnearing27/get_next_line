@@ -15,7 +15,5 @@
 # include <fcntl.h>
 # include <stdlib.h>
 char	*get_next_line(int	fd);
-char	*ft_strdup(char *src, int	i);
 char	*ft_strcat(char	*dest, char	*src);
-char	*ft_strcpy(char *dest, char *src, int	i);
-#endif
+# endif

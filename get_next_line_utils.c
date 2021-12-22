@@ -12,42 +12,56 @@
 
 #include "get_next_line.h"
 
-int	ft_strlen(char	*str)
+char	*ft_strcpy(char *dest, char *src, int	i)
 {
-	int	i;
+	int	count;
 
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
+	count = 0;
+	while (count < i)
+	{
+		dest[count] = src[count];
+		count++;
+	}
+	dest[count] = '\0';
+	return (dest);
 }
 
-char	*ft_strjoin(char	*s1, char	*s2)
+char	*ft_strdup(char *src)
+{
+	char	*dest;
+	int		i;
+
+	while (src[i])
+		i++;
+	dest = malloc(sizeof(char) * (i + 1));
+	if (!dest)
+		return (NULL);
+	return (ft_strcpy(dest, src, i));
+}
+
+char	*ft_strcat(char	*dest, char	*src)
 {
 	int		i;
 	int		j;
-	char	*res;
+	char	*ret;
 
-	if (!s1 && !s2)
-		return (NULL);
 	i = 0;
 	j = 0;
-	res = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!res)
-		return (NULL);
-	while (s1[i] != '\0')
-	{
-		res[i] = s1[i];
+	if (dest == NULL)
+		return (ft_strdup(src));
+	while (dest[i])
 		i++;
-	}
-	while (s2[j] != '\0')
+	while (src[j])
+		j++;
+	ret = malloc(sizeof(char) * (i + j + 1));
+	ret = ft_strcpy(ret, dest, i + j);
+	j = 0;
+	while (src[j])
 	{
-		res[i + j] = s2[j];
+		ret[i] = src[j];
+		i++;
 		j++;
 	}
-	j++;
-	res[i + j] = '\0';
-	return (res);
+	ret[i] = '\0';
+	return (ret);
 }

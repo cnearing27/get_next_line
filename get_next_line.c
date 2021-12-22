@@ -11,33 +11,32 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <unistd.h>
-#include <stdio.h>
 
 char	*save_buf(char	*outstr)
 {
 	char	*new_out;
 	int		count;
-	int		finish_i;
 	int		start_i;
+	int		finish_i;
 
-	finish_i = 0;
 	start_i = 0;
-	while (outstr[start_i] != '\n')
+	while (outstr[start_i] && outstr[start_i] != '\n')
 		start_i++;
 	start_i++;
+	finish_i = 0;
 	while (outstr[finish_i])
 		finish_i++;
 	new_out = malloc(sizeof(char) * (finish_i - start_i + 1));
 	if (!new_out)
 		return (NULL);
 	count = 0;
-	while (start_i <= finish_i)
+	while (start_i < finish_i)
 	{
 		new_out[count] = outstr[start_i];
 		count++;
 		start_i++;
 	}
+	new_out[count] = '\0';
 	return (new_out);
 }
 
@@ -47,12 +46,16 @@ char	*ft_crop(char	*outstr)
 	int		count;
 	int		i;
 
+
+	if (outstr[0] == '\0')
+	{
+		free(outstr);
+		return ("\0");
+	}
 	i = 0;
-	count = 0;
-	if (!outstr)
-		return (NULL);
 	while (outstr[i] && outstr[i] != '\n')
 		i++;
+	count = 0;
 	dest = malloc(sizeof(char) * (i + 1));
 	if (!dest)
 		return (NULL);
@@ -83,15 +86,16 @@ int	inc_endl(char	*outstr)
 
 char	*get_next_line(int	fd)
 {
-	char			*buf;
 	int				ret;
+	char			*buf;
 	static char		*outstr;
 
-	if (BUFFER_SIZE <= 0 || fd < 0)
-		return (NULL);
 	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
+	if (BUFFER_SIZE <= 0 || fd < 0 || !buf)
+	{
+		free(buf);
 		return (NULL);
+	}
 	ret = 1;
 	while (ret && !inc_endl(outstr))
 	{
@@ -102,7 +106,7 @@ char	*get_next_line(int	fd)
 			return (NULL);
 		}
 		buf[ret] = '\0';
-		outstr = ft_strjoin(outstr, buf);
+		outstr = ft_strcat(outstr, buf);
 	}
 	free(buf);
 	buf = ft_crop(outstr);

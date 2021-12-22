@@ -8,7 +8,9 @@ void	readfile(char *file, int print)
 {
 	int		fd;
 	char	*line;
+	int 	i;
 
+	i = 1;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return ;
@@ -18,14 +20,15 @@ void	readfile(char *file, int print)
 		if (!line)
 			break ;
 		if (print)
-			printf("%s", line);
+			printf("%d: %s", i, line);
 		free(line);
+		i++;
 	}
 	line = get_next_line(fd);
 	if (line)
 	{
 		if (print)
-			printf("%s", line);
+			printf("%d: %s", i, line);
 		free(line);
 	}
 	close(fd);

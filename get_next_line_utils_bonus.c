@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnearing@ <cnearing@student.21-school.ru>  +#+  +:+       +#+        */
+/*   By: cnearing <cnearing@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/05 20:14:27 by cnearing          #+#    #+#             */
-/*   Updated: 2021/12/05 20:14:27 by cnearing         ###   ########.fr       */
+/*   Created: 2021/12/05 20:14:38 by marvin            #+#    #+#             */
+/*   Updated: 2021/12/05 20:14:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strcpy(char *dest, char *src, int	i)
 {
@@ -26,10 +26,13 @@ char	*ft_strcpy(char *dest, char *src, int	i)
 	return (dest);
 }
 
-char	*ft_strdup(char *src, int	i)
+char	*ft_strdup(char *src)
 {
 	char	*dest;
+	int		i;
 
+	while (src[i])
+		i++;
 	dest = malloc(sizeof(char) * (i + 1));
 	if (!dest)
 		return (NULL);
@@ -38,21 +41,27 @@ char	*ft_strdup(char *src, int	i)
 
 char	*ft_strcat(char	*dest, char	*src)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	*ret;
 
 	i = 0;
 	j = 0;
 	if (dest == NULL)
-		return (src);
-	while (dest[i] != '\0')
+		return (ft_strdup(src));
+	while (dest[i])
 		i++;
-	while (src[j] != '\0')
+	while (src[j])
+		j++;
+	ret = malloc(sizeof(char) * (i + j + 1));
+	ret = ft_strcpy(ret, dest, i + j);
+	j = 0;
+	while (src[j])
 	{
-		dest[i] = src[j];
+		ret[i] = src[j];
 		i++;
 		j++;
 	}
-	dest[i] = '\0';
-	return (dest);
+	ret[i] = '\0';
+	return (ret);
 }

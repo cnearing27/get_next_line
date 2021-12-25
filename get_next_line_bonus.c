@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cnearing <cnearing@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/05 20:14:44 by cnearing          #+#    #+#             */
-/*   Updated: 2021/12/05 20:14:44 by cnearing         ###   ########.fr       */
+/*   Created: 2021/12/25 16:06:29 by cnearing          #+#    #+#             */
+/*   Updated: 2021/12/25 16:06:29 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,54 +17,55 @@ char	*save_buf(char	*outstr)
 	char	*new_out;
 	int		count;
 	int		start_i;
-	int		finish_i;
 
 	start_i = 0;
+	if (!outstr)
+		return (NULL);
 	while (outstr[start_i] && outstr[start_i] != '\n')
 		start_i++;
-	start_i++;
-	finish_i = 0;
-	while (outstr[finish_i])
-		finish_i++;
-	new_out = malloc(sizeof(char) * (finish_i - start_i + 1));
+	if (!outstr[start_i])
+	{
+		free(outstr);
+		return (NULL);
+	}
+	new_out = malloc(sizeof(char) * (ft_strlen(outstr) - start_i + 1));
 	if (!new_out)
 		return (NULL);
+	start_i++;
 	count = 0;
-	while (start_i < finish_i)
-	{
-		new_out[count] = outstr[start_i];
-		count++;
-		start_i++;
-	}
+	while (outstr[start_i])
+		new_out[count++] = outstr[start_i++];
 	new_out[count] = '\0';
+	free(outstr);
 	return (new_out);
 }
 
 char	*ft_crop(char	*outstr)
 {
 	char	*dest;
-	int		count;
 	int		i;
 
-
-	if (outstr[0] == '\0')
-	{
-		free(outstr);
-		return ("\0");
-	}
+	if (!outstr)
+		return (NULL);
 	i = 0;
 	while (outstr[i] && outstr[i] != '\n')
 		i++;
-	count = 0;
-	dest = malloc(sizeof(char) * (i + 1));
+	dest = malloc(sizeof(char) * (i + 2));
 	if (!dest)
 		return (NULL);
-	while (count <= i)
+	i = 0;
+	while (outstr[i] && outstr[i] != '\n')
 	{
-		dest[count] = outstr[count];
-		count++;
+		dest[i] = outstr[i];
+		i++;
 	}
-	dest[count] = '\0';
+	dest[i] = outstr[i];
+	dest[i + 1] = '\0';
+	if (dest[0] == '\0')
+	{
+		free(dest);
+		return (NULL);
+	}
 	return (dest);
 }
 
@@ -88,14 +89,13 @@ char	*get_next_line(int	fd)
 {
 	int				ret;
 	char			*buf;
-	static char		*outstr[4096];
+	static char		*outstr[10240];
 
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (BUFFER_SIZE <= 0 || fd < 0 || !buf)
-	{
-		free(buf);
+	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	}
+	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
+		return (NULL);
 	ret = 1;
 	while (ret && !inc_endl(outstr[fd]))
 	{

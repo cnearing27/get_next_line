@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnearing <cnearing@student.21-school.ru>        +:+       +#+        */
+/*   By: cnearing <cnearing@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/05 20:14:16 by cnearing          #+#    #+#             */
-/*   Updated: 2021/12/05 20:14:16 by cnearing         ###   ########.fr       */
+/*   Created: 2021/12/25 16:07:27 by cnearing          #+#    #+#             */
+/*   Updated: 2021/12/25 16:07:27 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define GET_NEXT_LINE_BONUS_H
 # include <fcntl.h>
 # include <stdlib.h>
-char	*get_next_line(int	fd);
-char	*ft_strcat(char	*dest, char	*src);
-# endif
+# include <unistd.h>
+char				*get_next_line(int	fd);
+unsigned long long	ft_strlen(char	*str);
+char				*ft_strcat(char	*dest, char	*src);
+#endif

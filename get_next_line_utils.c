@@ -12,6 +12,16 @@
 
 #include "get_next_line.h"
 
+unsigned long long	ft_strlen(char	*str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
 char	*ft_strcpy(char *dest, char *src, int	i)
 {
 	int	count;
@@ -31,6 +41,7 @@ char	*ft_strdup(char *src)
 	char	*dest;
 	int		i;
 
+	i = 0;
 	while (src[i])
 		i++;
 	dest = malloc(sizeof(char) * (i + 1));
@@ -63,5 +74,6 @@ char	*ft_strcat(char	*dest, char	*src)
 		j++;
 	}
 	ret[i] = '\0';
+	free(dest);
 	return (ret);
 }

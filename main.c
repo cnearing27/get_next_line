@@ -8,9 +8,7 @@ void	readfile(char *file, int print)
 {
 	int		fd;
 	char	*line;
-	int 	i;
 
-	i = 1;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return ;
@@ -20,15 +18,14 @@ void	readfile(char *file, int print)
 		if (!line)
 			break ;
 		if (print)
-			printf("%d: %s", i, line);
+			printf("%s", line);
 		free(line);
-		i++;
 	}
 	line = get_next_line(fd);
 	if (line)
 	{
 		if (print)
-			printf("%d: %s", i, line);
+			printf("%s", line);
 		free(line);
 	}
 	close(fd);
@@ -37,8 +34,8 @@ void	readfile(char *file, int print)
 int	main(void)
 {
 	int	ex = 0;
-//	readfile("test.txt", !ex);
+//	readfile("file.txt", !ex);
 	readfile("baudelaire.txt", !ex);
-    // sleep(100);
+     sleep(100);
 	return (1);
 }

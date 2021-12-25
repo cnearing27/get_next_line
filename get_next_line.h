@@ -14,6 +14,8 @@
 # define GET_NEXT_LINE_H
 # include <fcntl.h>
 # include <stdlib.h>
-char	*get_next_line(int	fd);
-char	*ft_strcat(char	*dest, char	*src);
+# include <unistd.h>
+char				*get_next_line(int	fd);
+unsigned long long	ft_strlen(char	*str);
+char				*ft_strcat(char	*dest, char	*src);
 #endif

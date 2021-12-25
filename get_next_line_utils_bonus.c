@@ -5,12 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cnearing <cnearing@student.21-school.ru>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/05 20:14:38 by marvin            #+#    #+#             */
-/*   Updated: 2021/12/05 20:14:38 by marvin           ###   ########.fr       */
+/*   Created: 2021/12/25 16:08:09 by cnearing          #+#    #+#             */
+/*   Updated: 2021/12/25 16:08:09 by cnearing         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+
+unsigned long long	ft_strlen(char	*str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
 char	*ft_strcpy(char *dest, char *src, int	i)
 {
@@ -31,6 +41,7 @@ char	*ft_strdup(char *src)
 	char	*dest;
 	int		i;
 
+	i = 0;
 	while (src[i])
 		i++;
 	dest = malloc(sizeof(char) * (i + 1));
@@ -63,5 +74,6 @@ char	*ft_strcat(char	*dest, char	*src)
 		j++;
 	}
 	ret[i] = '\0';
+	free(dest);
 	return (ret);
 }

@@ -36,6 +36,6 @@ int	main(void)
 	int	ex = 0;
 //	readfile("file.txt", !ex);
 	readfile("baudelaire.txt", !ex);
-     sleep(100);
+//     sleep(100);
 	return (1);
 }
